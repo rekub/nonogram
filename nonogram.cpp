@@ -189,14 +189,11 @@ void WriteCrosspoint(int w) {
       reverse(ways[w].a[0][i].begin(),ways[w].a[0][i].end());
   }
   if (asciiart) {
-    char buf[40];
+    string buf;
     for (int i=0; i<ways[w].L[w<4?0:1];i++) {
+      if (!(i%2)) buf = "";
       bool empty  = true;
       int p = 0;
-      if (!(i%2)) {
-        memset(buf,' ',40);
-        buf[39] = 0;
-      }
       for (int k=0;k<ways[w].a[w<4?0:1][i].size();k++,empty=!empty)
         for (int j=0;j<ways[w].a[w<4?0:1][i][k];j++) {
           if (!empty) {
@@ -204,8 +201,9 @@ void WriteCrosspoint(int w) {
               if (buf[p] == '‹') buf[p] = '';
               else buf[p] = 'Œ';
             }
-            else buf[p] = '‹';
+            else buf.push_back('‹');
           }
+          else if (!(i%2)) buf.push_back(' ');
           ++p;
         }
       if (i%2 ||i == ways[w].L[w<4?0:1]-1) cout << buf << endl;
