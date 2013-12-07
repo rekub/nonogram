@@ -1,6 +1,7 @@
 nonogram
 ========
 this is original nonogram resolver
+build under FreeBSD
 
 run
 nonogram < numbers
