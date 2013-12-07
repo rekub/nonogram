@@ -26,6 +26,8 @@ struct CrossSolver {
 
 CrossSolver ways[8];
 
+bool asciiart = false;
+
 void NoSolution() {
   cout << "No solution\n";
 }
@@ -186,12 +188,34 @@ void WriteCrosspoint(int w) {
     for (int i=0;i<ways[w].L[0];i++) 
       reverse(ways[w].a[0][i].begin(),ways[w].a[0][i].end());
   }
-  
-  for (int i=0;i<ways[w].L[w<4?0:1];i++) {
+  if (asciiart) {
+    char buf[40];
+    for (int i=0; i<ways[w].L[w<4?0:1];i++) {
+      bool empty  = true;
+      int p = 0;
+      if (!(i%2)) {
+        memset(buf,' ',40);
+        buf[39] = 0;
+      }
+      for (int k=0;k<ways[w].a[w<4?0:1][i].size();k++,empty=!empty)
+        for (int j=0;j<ways[w].a[w<4?0:1][i][k];j++) {
+          if (!empty) {
+            if (i%2) {
+              if (buf[p] == '‹') buf[p] = '';
+              else buf[p] = 'Œ';
+            }
+            else buf[p] = '‹';
+          }
+          ++p;
+        }
+      if (i%2 ||i == ways[w].L[w<4?0:1]-1) cout << buf << endl;
+    }
+  }
+  else for (int i=0;i<ways[w].L[w<4?0:1];i++) {
     char z='.';
     for (int k=0;k<ways[w].a[w<4?0:1][i].size();k++,z=(z=='.'?'*':'.'))
       for (int j=0;j<ways[w].a[w<4?0:1][i][k];j++) cout << z;
-    cout << "\n";
+    cout << endl;
   }
 }
 
@@ -263,7 +287,9 @@ void* ThreadProc(void* way) {
   static_cast<CrossSolver*>(way)->SolveCrosspoint();
 }
 
-int main() {
+int main(int argc, char ** argv) {
+  if (argc > 1 && argv[1][0] == '-' && argv[1][1] == 'a' && argv[1][2] == '\0')
+    asciiart = true;
   bool firstCrossPoint = true;
   while (!cin.eof()) {
     if (!firstCrossPoint) cout << "\n";
