@@ -5,6 +5,8 @@
 #include <pthread.h>
 #include <unistd.h>
 
+using namespace std;
+
 struct CrossSolver {
   vector< vector<int> > a[2]; 
   vector<int> s[2];
@@ -207,7 +209,7 @@ bool ReadCrosspoint() {
     if (sbuf=="*") if (i) break; else { i++; continue; }
     
     for (int w=0;w<8;w++) {
-      ways[w].a[w<4?i:(i?0:1)].push_back();
+      ways[w].a[w<4?i:(i?0:1)].push_back(vector<int>());
       ways[w].a[w<4?i:(i?0:1)][ways[w].L[w<4?i:(i?0:1)]].push_back(0);
     }    
     int sum = 0;
