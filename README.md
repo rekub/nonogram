@@ -5,6 +5,9 @@ build under FreeBSD
 
 run
 nonogram < numbers
+or
+nonogram -a < numbers
+for better asciiart
 
 numbers file format
 Horizontal Lines
